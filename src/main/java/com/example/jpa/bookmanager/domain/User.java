@@ -2,9 +2,7 @@ package com.example.jpa.bookmanager.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,6 +13,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Builder
 @Entity
+@Table(name = "user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User {
     @Id
     @GeneratedValue
@@ -26,7 +25,17 @@ public class User {
     @NonNull
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @Transient  // DB 데이터에 반영 되지 않는다
+    private String testData;
+
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private List<Address> address;
 }
