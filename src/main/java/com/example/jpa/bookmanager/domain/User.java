@@ -1,6 +1,7 @@
 package com.example.jpa.bookmanager.domain;
 
 import lombok.*;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class User {
+@EntityListeners(value = MyEntityListender.class)
+public class User implements Auditable{
     @Id
     @GeneratedValue
     private Long id;
@@ -38,4 +40,48 @@ public class User {
 
 //    @OneToMany(fetch = FetchType.EAGER)
 //    private List<Address> address;
+//
+//    @PrePersist // Insert 되기 전에 실행
+//    @PreUpdate // merge 되기 전에 실행
+//    @PreRemove // delete 되기 전에 실행
+//    @PostPersist
+//    @PostUpdate
+//    @PostRemove
+//    @PostLoad // select 조회 이후 실행되는 메서드
+//
+//    @PrePersist
+//    public void prePersist() {
+//        this.createdAt = LocalDateTime.now();
+//        this.updatedAt = LocalDateTime.now();
+//    }
+//
+//    @PostPersist
+//    public void postPersist() {
+//        System.out.println(">>>> postPersit");
+//    }
+//
+//    @PreUpdate
+//    public void preUpdate() {
+//        this.updatedAt = LocalDateTime.now();
+//    }
+//
+//    @PostUpdate
+//    public void postUpdate() {
+//        System.out.println(">>>> postUpdate");
+//    }
+//
+//    @PreRemove
+//    public void preRemove() {
+//        System.out.println(">>>> preRemove");
+//    }
+//
+//    @PostRemove
+//    public void postRemove() {
+//        System.out.println(">>>> postRemove");
+//    }
+//
+//    @PostLoad
+//    public void postLoad() {
+//        System.out.println(">>>> postLoad");
+//    }
 }
