@@ -1,7 +1,11 @@
 package com.example.jpa.bookmanager.domain;
 
+import com.example.jpa.bookmanager.domain.listener.Auditable;
+import com.example.jpa.bookmanager.domain.listener.UserEntityListener;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,8 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-@EntityListeners(value = MyEntityListender.class)
-public class User implements Auditable{
+public class User extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -30,10 +33,12 @@ public class User implements Auditable{
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
+//    @Column(updatable = false)
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//
+//    @LastModifiedDate
+//    private LocalDateTime updatedAt;
 
     @Transient  // DB 데이터에 반영 되지 않는다
     private String testData;

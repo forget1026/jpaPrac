@@ -23,6 +23,8 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
 
     @Test
     void crud() {
@@ -193,5 +195,20 @@ class UserRepositoryTest {
         userRepository.save(user);
 
         System.out.println("to-be : " + userRepository.findAll().get(0));
+    }
+
+    @Test
+    void userHistoryTest() {
+        User user = new User();
+        user.setEmail("test-new@test.com");
+        user.setName("test-new");
+
+        userRepository.save(user);
+
+        user.setName("test-new-new");
+
+        userRepository.save(user);
+
+        userHistoryRepository.findAll().forEach(System.out::println);
     }
 }

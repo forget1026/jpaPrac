@@ -1,10 +1,10 @@
-package com.example.jpa.bookmanager.domain;
+package com.example.jpa.bookmanager.domain.listener;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
-public class MyEntityListender {
+public class MyEntityListener {
     @PrePersist
     public void prePersist(Object o) {
         if (o instanceof Auditable) {
