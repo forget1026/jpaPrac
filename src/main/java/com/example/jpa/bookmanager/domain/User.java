@@ -1,24 +1,22 @@
 package com.example.jpa.bookmanager.domain;
 
-import com.example.jpa.bookmanager.domain.listener.Auditable;
 import com.example.jpa.bookmanager.domain.listener.UserEntityListener;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 @Entity
 @Table(name = "user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+@EntityListeners(UserEntityListener.class)
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +31,10 @@ public class User extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    List<UserHistory> userHistories = new ArrayList<>();
+
 //    @Column(updatable = false)
 //    @CreatedDate
 //    private LocalDateTime createdAt;
@@ -40,8 +42,8 @@ public class User extends BaseEntity {
 //    @LastModifiedDate
 //    private LocalDateTime updatedAt;
 
-    @Transient  // DB 데이터에 반영 되지 않는다
-    private String testData;
+//    @Transient  // DB 데이터에 반영 되지 않는다
+//    private String testData;
 
 //    @OneToMany(fetch = FetchType.EAGER)
 //    private List<Address> address;
